@@ -1,0 +1,3728 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="reveal/css/reveal.css">
+    <link rel="stylesheet" href="reveal/css/theme/kontur-light.css" id="theme">
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="reveal/css/highlight/idea-for-light.css">
+    <link rel="stylesheet" href="reveal/css/highlight/darkula-for-dark.css">
+    <!--[if lt IE 9]>
+    <script src="reveal/js/html5shiv.js"></script>
+    <![endif]-->
+	<script defer src="reveal/js/head.min.js"></script>
+	<script defer src="reveal/js/reveal.js"></script>
+	<script defer src="reveal/initialize.js"></script>
+	<script defer src="reveal/js/d3.min.js"></script>
+
+    <style>
+		.fragment-container {
+			position: relative;
+		}
+		
+		.fragment-container .fragment {
+			position: absolute;
+			top: 0px;
+			width: 100%;
+		}
+    </style>
+	
+	<title>JavaScript Basics</title>
+</head>
+<body>
+
+<div class="reveal"><div class="slides">
+
+<section data-markdown><script type="text/template">
+
+# JavaScript Basics
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+
+## Определение JavaScript
+
+***
+
+> _JavaScript_ - прототипно-ориентированный сценарный язык программирования.
+> Является реализацией языка ECMAScript.
+>
+> Википедия <!--.element: class="right"-->
+
+_ECMA_ - стандартизирующая организация  
+_JScript_, _ActionScript_ - другие реализации
+
+<!-- .element: class="fragment" -->
+
+***
+
+### Ключевые особенности
+
+C-подобный синтаксис: C, C++, _Java_, C#  
+Интерпретируемые _скрипты_, а теперь есть JIT-компиляция    
+Сборщик мусора
+
+Типизация <!-- .element: class="fragment" data-fragment-index="0" -->
+- динамическая - тип определяется во время выполнения
+- неявная - можно не указывать типы
+- нестрогая - автоматическое неявное преобразование типов
+
+<!-- .element: class="fragment" data-fragment-index="0" -->
+
+Функции как объекты первого класса  
+Контекст выполнения функции this можно подменять
+
+<!-- .element: class="fragment" -->
+
+Прототипное наследование
+
+<!-- .element: class="fragment" -->
+
+"Однопоточный", но есть очередь событий
+
+<!-- .element: class="fragment" -->
+
+~~Дикий и необузданный~~ Полон неожиданностей...
+
+<!-- .element: class="fragment" -->
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+
+## Краткая история JavaScript
+
+***
+
+### 1995 - Создание
+
+_Брендан Айк_ разработал JavaScript для браузера Netscape Navigator
+
+<p style="width: 25%; margin:auto; text-align: center;">
+	![alt Брендан Айк](tutorial/eich.jpg "Брендан Айк")
+</p>
+
+JS должен был дополнить Java-апплеты и стать Java для простаков
+
+_Java_ и _JavaScript_ от Netscape __vs__ _Visual C++_ и _Visual Basic_ от Microsoft
+
+
+***
+
+> ...10 дней почти без сна, чтобы сделать JS с чистого листа,
+> заставить его «выглядеть как Java»,
+> и тайком протащить туда его спасительные фишки:
+> first class functions и прототипы...
+
+> Считайте, что JavaScript спас вас от VBScript
+>
+> Брендан Айк <!--.element: class="right"-->
+
+***
+
+В том же году компания Microsoft выпустила свою реализацию JavaScript, использовав ее в InternetExplorer и Windows - _JScript_
+
+Затем JavaScript был стандартизирован как _ECMAScript_ (_ECMA-262_)
+
+***
+
+### 2001 - JSON
+
+_JavaScript Object Notation_ - текстовый формат обмена данными
+
+Подмножество стандарта ECMA-262
+
+Был разработан _Дугласом Крокфордом_
+
+<p style="width: 30%; margin:auto; text-align: center;">
+	![alt Дуглас Крокфорд](tutorial/crockford.jpg "Дуглас Крокфорд")
+</p>
+
+***
+
+#### JSON - только данные
+
+```json
+{
+   "firstName": "Иван",
+   "lastName": "Иванов",
+   "address": {
+       "streetAddress": "Московское ш., 101",
+       "city": "Ленинград",
+       "postalCode": 101101
+   },
+   "phoneNumbers": [
+       "812 123-1234",
+       "916 123-4567"
+   ]
+}
+```
+
+***
+
+#### XML - много метаинформации
+
+```
+<person firstName="Иван" lastName="Иванов">
+  <address streetAddress="Московское ш., 101"
+    city="Ленинград" postalCode="101101" />
+  <phoneNumbers>
+    <phoneNumber>812 123-1234</phoneNumber>
+    <phoneNumber>916 123-4567</phoneNumber>
+  </phoneNumbers>
+</person>
+```
+
+***
+
+### 2005 - AJAX
+
+_Asynchronous JavaScript and XML_ - подход к построению интерактивных веб-приложений,
+заключающийся в фоновом обмене данными браузера с веб-сервером без перезагрузки страницы
+
+Название предложено _Джеймсом Гарретом_
+
+_XmlHttpRequest_ и другие технологии, лежащие в основе AJAX, были созданы ранее
+
+Примеры приложений: Gmail, ВКонтакте, Яндекс.Карты
+
+***
+
+### 2006 - jQuery
+
+jQuery предоставил _единый API для различных браузеров_
+
+- Кроссбраузерные селекторы и переходы по DOM
+- События
+- Обертка над AJAX
+- Визуальные эффекты
+- Расширение плагинами
+
+<p class="center" style="width: 20%; margin:auto;">
+	![alt Джон Резиг](tutorial/resig.png "Джон Резиг")
+	_Джон Резиг_
+</p>
+
+***
+
+### 2008 - JIT-компиляция
+
+Проблематично компилировать язык с динамической типизацией
+
+Решение - _Just-In-Time-компиляция_  
+Это ленивая компиляция: только по запросу в момент выполнения
+
+Впервые в движке TraceMonkey от Mozilla  
+Затем в движке _V8_ от Google в браузере _Chrome_
+
+<!-- .element: class="fragment" -->
+
+Быстрый JavaScript был нужен Google для работы своих сервисов  
+Толчок для развития JavaScript-фреймворков
+
+<!-- .element: class="fragment" -->
+
+***
+
+### 2008 - Evergreen-браузеры
+
+_Evergreen-браузер_ - получает все новые фичи за счет фонового автоматического обновления
+
+Впервые появилось в _Chrome_
+
+Толчок для развития JavaScript и вебстандартов
+
+<p class="center" style="width: 80%; margin:auto;">
+	![alt Evergreen-браузеры поддерживают современные стандарты](tutorial/evergreen.png "Evergreen-браузеры современные стандарты")
+</p>
+
+***
+
+### 2009 - Большой взрыв
+
+<p class="center" style="width: 80%; margin:auto;">
+	![alt Big Bang](tutorial/bigbang.jpg "Big Bang")
+</p>
+
+***
+
+### 2009 - Node.js
+
+Исполняющая среда, построенная на движке V8
+
+<p class="center" style="width: 20%; margin:auto;">
+	![alt Райан Дал](tutorial/dahl.jpg "Райан Дал")
+	_Райан Дал_
+</p>
+
+***
+
+<p class="center" style="width: 20%; margin:auto;">
+	![alt Node.js](tutorial/nodejs.png "Node.js")
+</p>
+
+Возможность создавать приложения, работающие вне браузера
+- Серверные => Изоморфные
+- Десктопные: e.g. в 2014 текстовый редактор Atom на базе Electron
+
+В 2010 появился Node Package Manager
+
+<p class="center" style="width: 20%; margin:auto;">
+	![alt NPM](tutorial/npm.png "NPM")
+</p>
+
+***
+
+### 2009 - ES5
+
+ECMAScript edition 3 был принят еще в 1999  
+ECMAScript edition 4 был отменен
+
+Наконец, _ECMAScript edition 5_ исправил многие грабли
+
+<!-- .element: class="fragment" data-fragment-index="0" -->
+
+- Добавлен ряд полезных функций: evergreen-браузеры и IE &ge; 9
+- Появился _'use strict'_: evergreen-браузеры и IE &ge; 10
+
+<!-- .element: class="fragment" data-fragment-index="0" -->
+
+Для остальных браузеров
+
+<!-- .element: class="fragment" data-fragment-index="1" -->
+
+- es5-shim.js - _полифилы_: новые функции с помощью старых
+- es5-sham.js - заглушки: работать не будет, но чтобы не падало
+
+<!-- .element: class="fragment" data-fragment-index="1" -->
+
+***
+
+### &ge;2009 - Развитие диалектов ES
+
+- 2009 - _CoffeeScript_
+- 2011 - _Dart_ от Google
+- 2012 - _TypeScript_ от Microsoft
+- 2013 - _asm.js_ - подмножество JS
+- 2014 - _Flow_ от Facebook
+
+...
+  
+JavaScript как Intermediate Language, ASM для браузера
+
+***
+
+### &ge;2009 - Развитие веб-фреймворков
+
+- 2009 - _Angular_ от Google
+- 2010 - _Knockout_
+- 2010 - _Backbone_
+- 2011 - _Ember_
+- 2013 - _React_ от Facebook
+- 2013 - _Vue_
+
+...
+
+***
+
+### &ge;2009 - Развитие всего
+
+Хранение данных: MongoDB, Firebase, ...
+
+Статический анализ: JSHint, ESLint, ...
+
+Тестирование: Jasmine, Mocha, Chai, Sinon, Jest, ...
+
+Сборка: Grunt, Gulp, WebPack, ...
+
+...
+
+ _любое английское слово_ + _.js_ = _название фреймворка_
+
+***
+
+<p style="width: 100%; margin:auto;">
+	![alt The Front-End Spectrum](tutorial/spectrum.jpg "The Front-End Spectrum")
+</p>
+
+***
+
+### &ge;2009 - Участие крупнейших компаний
+
+_Google_, _Facebook_, _Microsoft_ и другие IT-компании,  
+развивая свой бизнес в сфере веб и облачных технологий,  
+активно участвуют в развитии веб-стандартов и технологий
+- HTML5
+- CSS3
+- ECMAScript
+
+***
+
+### 2015 - Стандарт ES2015, известный как ES6
+
+ES6 - это рабочее название, но все привыкли
+
+__Очень много улучшений__
+
+- Классы
+- Модули
+
+<p></p>
+
+- let, const и блочная область видимости
+- Стрелочные функции
+
+<p></p>
+
+- Шаблонные строки
+
+<p></p>
+
+- Параметры функции по умолчанию
+- Spread/Rest оператор
+
+...
+
+***
+
+...
+
+- Деструктуризация массивов и объектов
+- Расширение возможностей литералов объекта
+
+<p></p>
+
+- for...of    
+- Итераторы  
+- Генераторы
+
+<p></p>
+
+- Промисы
+
+и даже больше...
+
+***
+
+### Babel
+
+Чтобы новый стандарт работал в ~~старых~~ каких-то браузерах  
+нужно преобразовать ES2015 хотя бы в ES5
+
+<p class="center" style="width: 30%; margin:auto;">
+	![alt Babel](tutorial/babel.png "Babel")
+</p>
+
+_Babel_ - транспайлер для JavaScript
+
+_Транспайлер_ - это как компилятор,  
+только структура программы не меняется
+
+***
+
+### 2015 - Процесс стандартизации TC39
+
+_TC39_ - новый процесс стандартизации ECMAScript
+
+Каждое предложение функциональности проходит несколько стадий перед добавлением в стандарт
+
+Новый стандарт выпускается _ежегодно_
+
+[Подробнее о процессе](https://chicoxyzzy.github.io/talks/tc39process#/)<!-- .element: target="_blank"-->  
+[Подробнее о результатах](https://github.com/tc39/ecma262)<!-- .element: target="_blank"-->
+
+***
+
+### Стадии зрелости в TC39
+
+| Stage        | Название  | Описание                                                                                     |
+|--------------|-----------|----------------------------------------------------------------------------------------------|
+| Stage&nbsp;0 | Strawman  | N/A                                                                                          |
+| Stage&nbsp;1 | Proposal  | Анализ функциональности и решаемой проблемы                                                  |
+| Stage&nbsp;2 | Draft     | Есть основная семантика, для включения в стандарт ожидается завершение работ                 |
+| Stage&nbsp;3 | Candidate | Внутренняя работа завершена, требуется внешняя обратная связь                                |
+| Stage&nbsp;4 | Finished  | Изменения интегрированы, будет добавлено в ближайшую версию                                  |
+
+***
+
+### Результаты TC39
+
+#### ES2016
+
+- Array.prototype.includes
+- Exponentiation Operator
+
+#### ES2017
+
+- Async functions
+- Shared memory and atomics
+
+***
+
+### Будущее ждет!<!-- .element: class="center"-->
+
+<p class="center" style="width: 50%; margin:auto;">
+	![alt Future](tutorial/future.jpg "Future")
+</p>
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+
+## Почему JavaScript?
+
+***
+
+Полон неожиданностей...  
+Но есть сильные стороны!
+
+<!-- .element: class="center"-->
+
+Обманчиво простой...  
+You Don't Know JavaScript
+
+<!-- .element: class="center"-->
+
+***
+
+_Изоморфность_: браузер, сервер, десктоп, мобилки  
+_Легко начать_: C-синтаксис, "однопоточный", не паримся за типы  
+_Производительность_: JIT
+
+Развивающийся стандарт языка: _ES2015_, ES2016, ...  
+Альтернативные языки и диалекты: _TypeScript_, _Flow_, Dart, Elm, ...
+
+_Библиотеки_ для любых целей: NPM  
+_Инструментарий_ развивается: отладка, тестирование, статический анализ, сборка
+
+</script></section>
+
+
+<section data-markdown><script type="text/template">
+
+## Как пользоваться туториалом
+
+</div>
+
+***
+
+### Легенда
+
+JavaScript отличается от версии к версии.  
+Идейно мы будем обсуждать 3 варианта запуска скриптов.
+
+1. ES3 - классика, которая есть в каждом браузере  
+__никак не обозначается__
+2. "use strict" - особый строгий режим, появившийся в ES5  
+__(use strict)__
+3. ES2015 - современный стандарт языка  
+__(ES2015)__
+
+***
+
+### Песочница
+
+Чтобы играться с кодом из туториала можно использовать песочницу [Playcode.io](https://playcode.io)<!-- .element: target="_blank"--> или любую другую
+
+---
+
+## Основы языка
+
+***
+
+### Переменные и динамическая типизация
+
+```js
+// Объявление переменной. Тип можно не указывать.
+var a;
+
+// Инициализация переменной.
+a = "abracadabra";
+
+// В переменную можно присвоить значение другого типа - это нормально!
+a = 5;
+```
+
+***
+
+### Имя переменной
+
+- A-Z a-z 0-9 $ _
+- Первый символ не должен быть цифрой
+- Нельзя использовать зарезервированные слова,  
+например _var_, _class_, _return_, _export_ и др.
+
+В JavaScript принято давать имена в __camelCase__,  
+кроме пары исключений
+``` js
+var wordsInNameSeparatedWithCamelHumps = "";
+```
+
+***
+
+### Объявление переменных
+
+```js
+// Обычное объявление.
+var a;
+
+// (ES2015) Объявление переменной, но с блочной областью видимости, о чем позже.
+let b;
+
+// (ES2015) То же, что и let, но значение запрещено менять.
+const c = 5;
+
+// Правда, вне зависимости от версии JavaScript,
+// глобальные константы принято именовать иначе.
+var OLD_STYLE_CONST = 0;
+const ES2015_STYLE_CONST = 0;
+```
+
+***
+
+```js
+// Такая запись создаст переменную в глобальной области видимости.
+anotherVariable = 5;
+
+// (use strict) А вот в строгом режиме будет ошибка.
+num = 5; // error: num is not defined
+```
+
+***
+
+### Типы данных
+
+_Примитивы_ - неизменяемые, передаются по значению
+- Number
+- String
+- Boolean
+- null
+- undefined
+
+***
+
+_Объекты_ - передаются по ссылке
+- Object
+    - Function
+    - Array
+    - RegExp
+    - Date
+    - и все остальное
+
+***
+
+### Числовой тип - Number
+
+Числа с плавающей точкой двойной точности (64 бита)
+
+```js
+// Обычная запись
+123					 
+0
+123.234
+
+// Запись с экспонентой
+123.232e-7
+123.232E+5
+
+// Разные системы счисления
+0x10 // 16
+0o10 // 8
+0b10 // 2
+```
+
+***
+
+```js
+// Бесконечность
+Infinity
+Infinity - 1 === Infinity // true
+
+// Не число
+NaN
+0/0 // NaN
+Infinity - Infinity // NaN
+```
+
+***
+
+```js
+// Операции
+1 + 2*(3 - 5)/34
+5 % 3 // остаток по модулю
+a < b
+c >= d
+x++
+--y
+z += 5
+
+parseInt("5");
+parseFloat("3.14");
+
+Math.cos(Math.PI/2);
+
+// Внезапность!
+0.1  + 0.2 != 0.3 // true
+```
+
+[Функции для работы с числами](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Number)<!-- .element: target="_blank"--> 
+
+***
+
+### Строковый тип - String
+
+```js
+// Литералы
+"abc"
+'abc'
+'Max\'s'
+\t
+\r
+\n
+\\
+\/
+\U0041
+```
+
+```js
+// Операции
+"abc".length
+"abc".toUpperCase()
+"c" + "a" + "t" === "cat"
+
+"a b c".split(' ')
+```
+
+[Функции для работы со строками](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/String)<!-- .element: target="_blank"--> 
+
+***
+
+```js
+// (ES2015) Шаблонные строки
+var a = 5;
+var b = 10;
+console.log(`Fifteen is ${a + b} and not ${2 * a + b}.`);
+// "Fifteen is 15 and not 20."
+```
+
+***
+
+### Логический тип - Boolean
+
+```js
+// Литералы
+true
+false
+```
+
+```js
+// Операции
+!a
+!!b
+a ? 2 : 0
+a && b
+a || b
+a === b
+a !== b
+x == y
+x != y
+```
+
+[Подробнее о логическом типе](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Boolean)<!-- .element: target="_blank"--> 
+
+***
+
+### Объекты - Object
+
+```js
+{"x": 4, "y": 5} // JSON
+
+var obj = new Object();
+obj.key = "sun";
+obj[obj.key] = 5;
+obj.sun += 1;
+obj["sun"] = 1;
+
+var something = {
+    "x": "text",
+    "obj": obj
+}
+```
+
+Объект можно воспринимать как ассоциативный массив, словарь или хэш-таблицу
+
+***
+
+### Функции - Function
+
+Функция – это объект, который можно вызвать
+
+```js
+// Один способ определить функцию.
+var mul = function(x, y) {
+	return x * y;
+}
+
+// Второй способ определить функцию.
+function add(x, y) {
+	return x + y;
+}
+
+// Функция - это полноценный объект.
+mul.operand = 5;
+
+var result = mul(1, add(2, mul.operand)); 
+```
+
+***
+
+```js
+// Запись, которая принципиально отличается от предыдущих.
+var foo = function bar() {
+    return 0;
+}
+
+// Так тоже можно.
+var f = new Function('x, y', 'return x + y;');
+
+// (ES2015). Современный способ.
+var es2015Add = (x, y) => x + y;
+```
+
+[Подробнее о функциях](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Function)<!-- .element: target="_blank"--> 
+
+***
+
+### Массивы - Array
+
+Массив – это объект со специальным литералом  
+Массивы в JavaScript разреженные (sparse array)  
+Если массив плотный (dense array), то возможны оптимизации
+
+
+```js
+var xs = [1, "5", 6, 7]; // JSON
+xs[100] = 500;
+
+xs[1] === 5
+xs[200] === undefined
+xs.length === 101
+
+xs.push(8);
+xs.pop();
+xs.unshift(-1);
+xs.shift();
+var ys = xs.concat([]);
+
+["a", "b"].join(' ')
+```
+
+[Функции для работы с массивами](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array)<!-- .element: target="_blank"--> 
+
+***
+
+### Регулярные выражения - RegExp
+
+Используется Perl Compatible Regular Expressions
+
+```js
+var r1 = /d(b+)(d)/ig;
+var r2 = new RegExp("ab+c", "i")
+
+var i = str.search(/\s/)
+var j = str.search("\\s")
+
+search – позиция
+match – наличие
+replace – замена
+```
+
+[Синтаксис регулярных выражений и функции](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/RegExp)<!-- .element: target="_blank"-->  
+
+***
+
+### Даты - Date
+
+```js
+var today = new Date(); // объект Date с текущим временем с учетом часового пояса
+var birthday = new Date('December 17, 1995 03:24:00');
+var birthday = new Date('1995-12-17T03:24:00');
+var birthday = new Date(1995, 11, 17);
+var birthday = new Date(1995, 11, 17, 3, 24, 0);
+
+// Расчет прошедшего времени в миллисекундах
+var start = Date.now(); // timestamp текущего времени
+doSomethingForALongTime();
+var end = Date.now();
+var elapsed = end - start;
+```
+
+[Функции для работы с датами](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Date)<!-- .element: target="_blank"-->  
+
+***
+
+### Отсутствие значения - null
+
+«Нулевой указатель», свойство задано и пустое
+
+```js
+var p = {"x": 1, "y": 2};
+p.x = null;
+
+p.x === null;
+
+// null - это литерал значения с типом null
+```
+
+***
+
+### Неопределенное значение - undefined
+
+Существование свойства не предполагается
+
+```js
+var empty;
+empty === undefined;
+
+var p = {"x": 1, "y": 2};
+delete p.y;
+
+p.y === undefined;
+p.z === undefined;
+
+// undefined - глобальная переменная с типом undefined
+```
+
+***
+
+```js
+function empty1() {}
+function empty2() { return;}
+function empty3() {
+    return undefined;
+}
+
+empty1() === undefined
+empty2() === undefined
+empty3() === undefined
+
+// Специальный оператор, всегда возвращающий undefined
+void(1) === undefined
+```
+
+***
+
+### Обертки примитивных типов
+
+```js
+new Number(2);
+new Boolean(true);
+new String("строчка");
+
+// Это уже ссылочные типы с соответствующим сравнением
+new Number(2) === new Number(2); // false
+
+// Объект содержит false, но это объект
+new Boolean(false); // true
+```
+
+***
+
+### Приведение объекта к примитивам
+
+```js
+var n = new Number(5);
+n.marked = true;
+console.log(n); // { marked: true }
+// valueOf приводит к примитивному типу
+console.log(n.valueOf()); // 5
+
+var obj = {x: 1, y: 2};
+// либо оставляет как есть
+console.log(obj.valueOf()); // { x: 1, y: 2 }
+```
+
+***
+
+### Приведение к строке
+
+```
+var obj = {};
+obj.toString(); // '[object Object]'
+
+true.toString(); // 'true'
+var i = 5;
+i.toString(); // '5'
+
+// Следующие записи эквивалентны
+new String(obj.toString());
+new String(obj);
+```
+
+***
+
+### Определение типа
+
+```js
+typeof x
+typeof(x)
+
+typeof 1; // 'number'
+typeof true; // 'boolean'
+typeof "строка"; // 'string'
+typeof null; // 'object' - должно быть 'null', но так исторически сложилось
+typeof undefined; // 'undefined'
+typeof {}; // 'object'
+typeof function () {}; // 'function' - должно быть 'object', но так удобнее
+typeof new Number(1); // 'object'
+```
+
+***
+
+### Нестрогая типизация
+
+Она же слабая типизация
+
+Означает, что при выполнении тип значения может быть неявно преобразован к "наиболее подходящему" 
+
+***
+
+### Неявное преобразование к Boolean
+
+```js
+var p = {x: null, y: 5};
+var r = 0;
+if (p) {
+    if (p.x && p.y) {
+        r = p.x + p.y;
+    }
+}
+
+!5 === false
+!!null === false
+```
+
+Любой тип понятным образом преобразуется к Boolean
+
+***
+
+### Неявное преобразование к Number
+
+```js
++5; // 5
++true; // 1
++"2"; // 2
++""; // 0
+```
+
+Любой тип понятным образом преобразуется к Number
+
+***
+
+### Неявное преобразование оператора +
+
+```js
+5 + "2"; // "52"
+"" + 6; // "6"
+3 + null; // 3
+7 + {}; // "7[object Object]"
+"the" + true; // "thetrue"
+"the" + null; // "thenull"
+```
+
+~~Объекты прежде всего преобразуются к примитивам~~  
+~~Конкатенация строк более приоритетна, чем сложение чисел~~
+
+***
+
+### Неявное преобразование при сравнении
+
+Сравнение на равенство может давать неожиданные результаты
+
+```js
+undefined == null // true
+false == undefined // false
+false == null // false
+
+"" == 0 // true
+0 == "0" // true
+"" == "0" // false
+
+1 == "1" // true
+false == "" // true
+0 == false // true
+
+{} == {} // false
+```
+
+***
+
+Если типы совпадают, то преобразований не будет и все просто
+~~Если типы разные, то в большинстве случаев объекты будут преобразованы к примитивам и все сведется к сравнению чисел~~
+
+Лучше проверять на эквивалентность: требует совпадение типа
+
+[Абстрактный алгоритм сравнения](http://www.ecma-international.org/ecma-262/5.1/#sec-11.9.3)<!-- .element: target="_blank"-->  
+
+***
+
+<p style="width: 100%; margin:auto; text-align: center;">
+	![alt Таблица сравнения типов](tutorial/typetable.png "Таблица сравнения типов")
+</p>
+
+***
+
+### Неявное преобразование примитивных типов
+
+Перед вызовом метода, примитивные типы преобразуются к объектам-оберткам
+
+```js
+// Так можно добавить свой метод к некоторому типу
+Number.prototype.mark = function () {
+  this.marked = true;
+  return this;
+}
+
+var value = 5;
+value.mark() // { marked: true }
+value.mark() + 2; // 7
+```
+
+***
+
+### if - else
+
+```js
+if (a < b) {
+	return -1;
+} else if (a > b) {
+	return 1;
+} else {
+	return 0;
+}
+```
+
+***
+
+### Пара трюков
+
+```js
+// Безопасное получение свойства
+obj != null ? obj.prop : null;
+obj && obj.prop;
+
+// Подстановка значения по умолчанию
+value != null ? value : defaultValue;
+value || defaultValue;
+```
+
+При проверке `&&` и `||` приводят значение к Boolean,  
+но возвращают в неизменном виде
+
+***
+
+### switch - case
+
+```js
+var result = 0;
+var key = 2;
+switch (key) {
+	case 1:
+		result += 1;
+		break;
+	case 2:
+		result += 2;
+	default:
+		result += 3;
+		break;
+}
+```
+
+***
+
+### for
+
+```js
+var array = [3, 5, 7];
+array.foo = "hello";
+
+for (var i = 0; i < array.length; i++) {
+    console.log(array[i]); // выведет "3", "5", "7"
+}
+
+for (var key in array) {
+   console.log(key); // выведет "0", "1", "2", "foo"
+}
+
+//(ES2015)
+for (var value of array) {
+   console.log(value); // выведет "3", "5", "7"
+}
+```
+
+***
+
+### while
+
+```js
+var counter = 5;
+while (true) {
+	if (counter == 0) {
+		break;
+	}
+	if (counter < 0) {
+		continue;
+     }
+	counter--;
+}
+```
+
+```js
+do {
+	…
+} while (true)
+```
+
+***
+
+### try - catch - finally
+
+```js
+try {
+    throw "oops!"; //можно выкинуть что угодно
+}
+catch (ex) { //catch ловит все исключения
+    console.error('catch', ex);
+    throw ex; //можно пробросить дальше, если нельзя обработать
+}
+finally {
+    console.log('finally');
+}
+
+```
+
+***
+
+### Ошибки
+
+```js
+//Лучше выбрасывать объект Error или объект-наследник Error
+try {
+    throw new Error("oops!")
+}
+catch (ex) {
+    console.log(ex.message); // "oops!""
+    //стек вызовов.
+	//нестандартное свойство, но поддерживается большинством браузеров.
+    console.log(ex.stack);
+}
+```
+
+[Список встроенных ошибок](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Error)<!-- .element: target="_blank"-->  
+
+***
+
+### Комментарии
+
+```js
+
+//Вы уже поняли, что это однострочный комментарий
+
+/*
+    Многострочные комментарии тоже есть.
+*/
+```
+
+***
+
+### Точка с запятой
+
+```js
+// Можно не ставить точки с запятой - халява!
+var x = 1
+var y = 2
+```
+
+```js
+//K&R стиль фигурных скобок
+//aka Египетский стиль
+function foo1() {
+    return {
+        value: 5
+    };
+}
+```
+<!-- .element: class="fragment" -->
+
+```js
+//В отдельной строке
+function foo2() {
+    return
+    {
+        value: 5
+    };
+}
+```
+<!-- .element: class="fragment" -->
+
+Но вернется undefined...  
+Египетский стиль - безопаснее в JavaScript.
+
+<!-- .element: class="fragment" -->
+
+***
+
+### Глобальный объект
+
+В браузере глобальный объект - это window
+
+```js
+//Глобальные переменные лежат в window
+var a = 5;
+window.b = 7;
+console.log(window.a); //5
+console.log(b); //7
+window.a = 5;
+
+//Как и все встроенные функции и константы
+window.Math
+window.parseInt
+window.undefined
+```
+
+***
+
+#### Немного полезного из API браузера
+
+```js
+window.document
+window.location
+
+window.alert
+window.prompt
+window.confirm
+
+window.console
+```
+
+***
+
+### Сборщик мусора
+
+Алгоритм mark-and-sweep используется во всех современных браузерах.  
+Обеспечивает удаление недостижимых объектов.  
+Поэтому циклические ссылки не страшны.
+
+***
+
+### Отложенное выполнение
+
+```js
+var timeoutId1 = setTimeout(function () {console.log("timeout");}, 0)
+var timeoutId2 = setInterval(function () {console.log("interval");}, 1000)
+
+clearTimeout(timeoutId2);
+```
+
+***
+
+### eval - выполнение произвольного кода
+
+```
+eval("5 == 6 ? 2 : 1"); // 1
+```
+
+***
+
+### JSON
+
+```js
+{
+  "squadName": "Super hero squad",
+  "members": [
+    {
+      "name": "Molecule Man",
+      "age": 29,
+      "powers": [
+        "Radiation resistance",
+        "Radiation blast"
+      ]
+    }
+  ]
+}
+```
+
+***
+
+#### Особенности JSON
+- подмножество JavaScript
+- нельзя использовать комментарии
+- ключи должны быть в кавычках
+- объекты и списки не могут иметь запятую после последнего элемента
+
+```js
+//Методы для JSON в современных браузерах
+JSON.parse()
+JSON.stringify()
+```
+</script></section>
+
+<section data-markdown><script type="text/template">
+
+## Области видимости
+
+***
+
+### Область видимости - Lexical Scope
+
+Отвечает на вопрос: Где искать все эти штуки?
+
+***
+
+### Пример. Область видимости функции
+
+<div class="fragment-container">
+<pre class="fragment current-visible lang-js">
+```
+var foo = "bar";
+
+function bar() {
+	var foo = "baz";
+	
+	function baz(foo) {
+		foo = "bam";
+		bam = "yay";
+	}
+	baz();  // ???
+}
+
+bar();      // ???
+foo;        // ???
+bam;        // ???
+baz();      // ???
+```
+</pre>
+<pre class="fragment lang-js">
+```
+var foo = "bar";
+
+function bar() {
+	var foo = "baz";
+	
+	function baz(foo) {
+		foo = "bam";
+		bam = "yay";
+	}
+	baz();  // No error.
+}
+
+bar();      // No error.
+foo;        // "bar"
+bam;        // "yay"
+baz();      // Error!
+```
+</pre>
+</div>
+
+***
+
+### Пример. Область видимости цикла
+
+<div class="fragment-container">
+<pre class="fragment current-visible lang-js">
+```
+"use strict"
+
+function foo() {
+	for (var i = 0; i < 10; i++) {
+		console.log(i*i);
+	}
+	return i; // ???
+}
+
+//сколько областей видимости?
+```
+</pre>
+<pre class="fragment current-visible lang-js">
+```
+"use strict"
+
+function foo() {
+	for (i = 0; i < 10; i++) {
+		console.log(i*i);
+	}
+	return i; // ???
+}
+```
+</pre>
+<pre class="fragment current-visible lang-js">
+```
+//без use strict
+
+function foo() {
+	for (i = 0; i < 10; i++) {
+		console.log(i*i);
+	}
+	return i; // ???
+}
+```
+</pre>
+<pre class="fragment lang-js">
+```
+"use strict"
+
+function foo() {
+	for (i = 0; i < 10; i++) {
+		console.log(i*i);
+	}
+	var i;
+	return i; // ???
+}
+```
+</pre>
+</div>
+
+***
+
+### Пример. Область видимости catch
+
+```js
+var foo;
+
+try {
+	foo.length;
+}
+catch (err) {
+	console.log(err); // TypeError
+}
+
+console.log(err); // ReferenceError
+```
+
+***
+
+### Выводы по примерам
+- _Цикл_ не создает области видимости
+- _Функция_ создает область видимости
+  - Переменную можно объявить в любом месте функции
+- _catch_ создает область видимости
+  - Но только для одной переменной
+- Есть _глобальная область видимости_
+  - В ней может оказаться мусор
+- _undeclared_ не равно undefined
+	- (use strict) Переменные надо объявлять, иначе будет ошибка
+- Писать код без use strict очень опасно
+
+***
+
+### IIFE
+
+Immediately Invoked Function Expression
+
+```js
+var foo = "foo";
+
+(function() {
+
+	var foo = "foo2";
+	console.log(foo); // "foo2";
+
+})();
+
+console.log(foo);
+```
+
+***
+
+### IIFE: связь с внешним миром
+
+```js
+var foo = "foo";
+
+(function(bar) {
+
+	var foo = bar;
+	console.log(foo); // "foo";
+
+})(foo);
+
+console.log(foo);
+```
+
+***
+
+### IIFE: модули в стиле Крокфорда
+
+```js
+var foo = (function () {
+
+	var o = { bar: "bar" };
+	
+	return {
+		bar: function () {
+			console.log(o.bar);
+		}
+	};
+})();
+
+foo.bar(); // "bar"
+```
+
+***
+
+### IIFE: модули в стиле Симпсона
+
+```js
+var foo = (function (){
+	var publicAPI = {
+		bar: function () { publicAPI.baz(); },
+		baz: function () { console.log("baz"); }
+	};
+	var privateBoom = function() { console.log("boom"); }
+	publicAPI.boom = privateBoom;
+	
+	return publicAPI;
+})();
+
+foo.bar(); // "baz"
+```
+
+***
+
+### IIFE: выводы
+
+- Позволяет эмулировать области видимости и изолировать код
+- Основа для изолированных модулей и приватных методов
+
+***
+
+### Блочная область видимости (ES2015)
+
+Будет работать, если вместо var использовать _let_
+
+***
+
+```js
+function foo() {
+	for (let i = 0; i < 10; i++) {
+		console.log(i*i);
+	}
+	console.log(i); // ReferenceError
+}
+```
+
+***
+
+```js
+function foo(bar) {
+	if (bar) {
+		let baz = bar;
+		if (baz) {
+			let bam = baz;
+		}
+		console.log(bam); // Error
+	}
+	console.log(baz); // Error
+}
+
+foo("bar");
+```
+
+***
+
+### Поднятие - Hoisting
+
+<div style="display: flex; flex-flow: row nowrap;">
+<pre class="lang-js" style="width: 100%; margin: 10px;">
+```
+a; // ???
+b; // ???
+var a = b;
+var b = 2;
+b; // 2
+a; // ???
+```
+</pre>
+<pre class="fragment lang-js" style="width: 100%; margin: 10px;">
+```
+var a;
+var b;
+a = b;
+b = 2;
+b; // 2
+a; // ???
+```
+</pre>
+</div>
+
+***
+
+### Поднятие: объявление функций
+
+<div style="display: flex; flex-flow: row nowrap;">
+<pre class="lang-js" style="width: 100%; margin: 10px;">
+```
+var a = b();
+var c = d();
+a;		// ???
+c;		// ???
+
+function b() {
+	return c;
+}
+
+var d = function() {
+	return b();
+};
+```
+</pre>
+<pre class="fragment lang-js" style="width: 100%; margin: 10px;">
+```
+function b() {
+	return c;
+}
+var a;
+var c;
+var d;
+a = b();
+c = d();
+a;		// ???
+c;		// ???
+d = function() {
+	return b();
+};
+```
+</pre>
+</div>
+
+***
+
+### Поднятие: приоритеты
+
+```js
+foo(); // "foo"
+
+function foo() {
+    console.log("bar");
+}
+
+var foo = 2;
+
+function foo() {
+    console.log("foo");
+}
+
+foo(); // Error
+```
+
+***
+
+### Поднятие: особенности let
+
+```js
+function foo(bar) {
+	if (bar) {
+		console.log(baz); // ReferenceError
+		let baz = bar;
+	}
+}
+```
+
+***
+
+### Поднятие: выводы
+- JS делает предварительный анализ кода,  
+регистрируя объявления переменных
+  - Это можно представить как перенос объявлений вверх
+  - Получается своего рода .h файл в C
+- Переменные можно объявлять в любом месте области видимости
+- Есть стиль, в котором все переменные объявляются в начале функции
+
+***
+
+### Мошенничество eval
+
+```js
+var bar = "bar";
+
+function foo(str) {
+	eval(str); // cheating!
+	console.log(bar); // 42
+}
+
+foo("var bar = 42;");
+```
+
+Старайтесь никогда не использовать eval!  
+Это чит, он небезопасен, а также препятствует компиляции
+
+***
+
+### Мошенничество with
+
+<div style="display: flex; flex-flow: row nowrap;">
+<pre class="lang-js" style="width: 100%; margin: 10px;">
+```
+var obj = {
+	a: 2,
+	b: 3,
+	c: 4
+};
+
+obj.a = obj.b + obj.c;
+obj.c = obj.b - obj.a;
+```
+</pre>
+<pre class="fragment lang-js" style="width: 100%; margin: 10px;">
+```
+var obj = {
+	a: 2,
+	b: 3,
+	c: 4
+};
+
+
+with (obj) {
+	a = b + c;
+	c = b - a;
+	d = 3; // ???
+}
+
+obj.d; // undefined
+d; // 3 -- oops!
+```
+</pre>
+</div>
+
+Не стоит использовать!
+
+<!-- .element: class="fragment" -->
+    
+</script></section>
+
+<section data-markdown><script type="text/template">
+
+## Функции и замыкание
+
+***
+
+### Способы определения
+
+- Function Declaration
+- Anonymous Function Expression
+- Arrow Function
+- Named Function Expression
+
+***
+
+#### Function Declaration
+
+```js
+// имя видно в call stack
+[].map(squareDeclaration);
+
+// всплывает
+function squareDeclaration(x) {
+	return x * x;
+};
+```
+
+***
+
+#### Anonymous Function Expression
+
+```js
+// в call stack: anonymous
+[1, 2].map(function (x) { return x * x; });
+
+// definition не всплывает
+var squareVariable = function (x) {
+	return x * x;
+};
+
+// имя видно в call stack
+[].map(squareVariable);
+```
+
+***
+
+#### Arrow Function (ES2015)
+
+```js
+// в call stack: xs.map.x
+var xs = [1, 2];
+xs.map(x => x * x);
+
+// definition не всплывает
+var squareArrow = x => x * x;
+
+// имя видно в call stack
+[].map(squareArrow);
+```
+
+***
+
+#### Named Function Expression
+
+```js
+var foo = function bar(n) {
+	if (n > 0)
+		bar(n-1); //есть имя в отладчике
+};
+```
+
+```js
+foo(1);
+bar(1); // Error!
+```
+
+<!-- .element: class="fragment" -->
+
+***
+
+### Замыкание - Closure
+
+Это когда функция "помнит" свою область видимости даже тогда, когда она выполняется вне этой области видимости.
+
+***
+
+#### Пример. Вызов функции в другом контексте
+
+```js
+function foo() {
+	var bar = "bar";
+	
+	function baz() {
+		console.log(bar);
+	}
+	
+	bam(baz);
+}
+
+function bam(baz) {
+	baz(); // bar
+}
+
+foo();
+```
+
+***
+
+#### Пример. Возвращение функции
+
+```js
+function foo() {
+	var bar = "bar";
+	
+	return function () {
+		console.log(bar);
+	};
+}
+
+function bam() {
+	foo()(); // bar
+}
+
+bam();
+```
+
+***
+
+#### Пример. Обработчик setTimeout
+
+```js
+function foo() {
+	var bar = "bar";
+	
+	setTimeout(function () {
+		console.log(bar);
+	}, 1000);
+}
+
+foo();
+```
+
+***
+
+#### Пример. Обработчик события
+
+```js
+function foo() {
+	var bar = "bar";
+	
+	$("#btn").click(function (e) {
+		console.log(bar);
+	});
+}
+
+foo();
+```
+
+***
+
+#### Пример. Вложенное замыкание
+
+```js
+function foo() {
+	var bar = 0;
+	
+	setTimeout(function () {
+		var baz = 1;
+		console.log(bar++);
+		
+		setTimeout(function () {
+			console.log(bar + baz);
+		}, 200);
+	}, 100);
+}
+
+foo(); // 0 2
+```
+
+Пока хотя бы одна из функций использует область видимости в замыкании, он не может быть очищен.  
+В данном случае - это область видимости с bar.
+
+***
+
+#### Замыкание в цикле
+
+```js
+for (var i = 1; i <= 5; i++) {
+	setTimeout(function () {
+		console.log(i);
+	}, i*1000);
+}
+```
+
+5 раз выведет 6
+
+<!-- .element: class="fragment" -->
+
+***
+
+#### Замыкание в цикле с анонимной функцией
+
+```js
+for (var i = 1; i <= 5; i++) {
+	(function (i) {
+		setTimeout(function () {
+			console.log(i);
+		}, i*1000);
+	})(i);
+}
+```
+
+Выведет числа от 1 до 5
+
+<!-- .element: class="fragment" -->
+
+Разница - в дополнительной области видимости!
+
+<!-- .element: class="fragment" -->
+
+***
+
+#### Замыкание в цикле с let
+
+```js
+for (let i = 1; i <= 5; i++) {
+	setTimeout(function () {
+		console.log(i);
+	}, i*1000);
+}
+```
+
+Выведет числа от 1 до 5
+
+let порождает блочную область видимости и все работает как надо!
+
+***
+
+### Аргументы функции
+
+```js
+function concat3(x, y, z) {
+  return x + y + z;
+}
+
+// Допустимо вызывать с любым числом параметров
+concat3("a", "b"); // "abundefined"
+```
+
+***
+
+#### Получение переданных аргументов
+
+```js
+function print() {
+  for (var i = 0; i < arguments.length; i++) {
+    console.log(arguments[i]);
+  }
+}
+
+print(1, "text");
+```
+
+***
+
+#### Особенности arguments
+
+```js
+function foo(bar) {
+  // Не Array, но можно преобразовать к массиву так:
+  var array = Array.prototype.slice.call(arguments, 0);
+	
+  // Есть ссылка на функцию - можно узнать ожидаемое число аргументов
+  console.log(arguments.callee.length == array.length); // false
+}
+foo("baz", "bom");
+
+var arrow = (a, b) => {
+	// Не доступны в стрелочных функциях
+	console.log(arguments); // ReferenceError
+	return a + b;
+}
+arrow(1, 2);
+```
+
+***
+
+#### Значения по умолчанию
+
+```js
+function print(text) {
+  // не самый корректный подход
+  text = text || 'текст не передан';
+  console.log(text);
+}
+
+//(ES2015)
+function print(text = "текст не передан") {
+  console.log(text);
+}
+```
+
+***
+
+#### Именованные аргументы
+
+```js
+function showWarning(options) {
+  var width = options.width || 200;
+  var height = options.height || 100;
+  var title = options.title || "Предупреждение";
+  // ...
+}
+
+var opts = {
+  width: 400,
+  height: 200,
+  contents: "Текст",
+  showYesNo: true
+};
+
+showWarning(opts);
+```
+
+- Альтернатива arguments.
+- Удобно пробрасывать и выставлять значения по умолчанию.
+
+***
+
+#### Rest-оператор (ES2015)
+
+```js
+function multiply(multiplier, ...theArgs) {
+  return theArgs.map(function (element) {
+    return multiplier * element;
+  });
+}
+
+var arr = multiply(2, 1, 2, 3); 
+console.log(arr); // [2, 4, 6]
+```
+
+***
+
+#### Spread-оператор (ES2015)
+
+```js
+function myFunction(x, y, z) { }
+var args = [0, 1, 2];
+myFunction(...args);
+
+var arr1 = [0, 1, 2];
+var arr2 = [3, 4, 5];
+arr1 = [...arr1, ...arr2];
+```
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+
+## Контекст выполнения
+
+***
+
+### this
+
+У каждой функции во время выполнения есть ссылка на текущий контекст выполнения, называемый _this_
+
+***
+
+### Правила связывания контекста
+
+1. Связывание по умолчанию. use strict => undefined, не strict => global object
+2. Неявное связывание. К объекту
+3. Явное связывание. С помощью call или apply
+4. Вызов конструктора. При использовании new
+
+***
+
+### Связывание неявное и по умолчанию
+
+```js
+function foo() {
+	console.log(this.bar);
+}
+
+var bar = "bar1";
+var o2 = { bar: "bar2", foo: foo };
+var o3 = { bar: "bar3", foo: foo };
+
+foo();      // "bar1";
+o2.foo();   // "bar2"
+o3.foo();   // "bar3"
+```
+
+***
+
+```js
+var o1 = {
+	bar: "bar1",
+	foo: function () {
+		console.log(this.bar);
+	}
+};
+var o2 = { bar: "bar2", foo: o1.foo };
+
+var bar = "bar3";
+var foo = o1.foo;
+
+o1.foo();   // "bar1"
+o2.foo();   // "bar2"
+foo();      // "bar3"
+```
+
+***
+
+### Конфузы при неявном связывании
+<div class="fragment-container">
+<pre class="fragment current-visible lang-js">
+```
+function foo() {
+	var bar = "bar1";
+	baz();
+}
+
+function baz() {
+	console.log(this.bar);
+}
+
+var bar = "bar2";
+foo();   // ???
+```
+</pre>
+<pre class="fragment lang-js">
+```
+function foo() {
+	var bar = "bar1";
+	baz();
+}
+
+function baz() {
+	console.log(this.bar);
+}
+
+var bar = "bar2";
+foo();   // "bar2"
+```
+</pre>
+</div>
+
+***
+
+### Явное связывание
+
+```js
+function foo() {
+	console.log(this.bar);
+}
+
+var bar = "bar1";
+var obj = { bar: "bar2" };
+
+foo();         // "bar1"
+foo.call(obj); // "bar2"
+```
+
+***
+
+### call vs apply
+
+```js
+func.call(context, arg1, arg2);
+
+// идентичен вызову
+
+func.apply(context, [arg1, arg2]);
+```
+
+***
+
+### Жесткое связывание контекста
+
+<div class="fragment-container">
+<pre class="fragment current-visible lang-js">
+```
+function foo() {
+	console.log(this.bar);
+}
+
+var obj = { bar: "bar" };
+var obj2 = { bar: "bar2" };
+
+var orig = foo;
+foo = function () { orig.call(obj); };
+
+foo();            // "bar"
+foo.call(obj2);   // ???
+```
+</pre>
+<pre class="fragment lang-js">
+```
+function foo() {
+	console.log(this.bar);
+}
+
+var obj = { bar: "bar" };
+var obj2 = { bar: "bar2" };
+
+var orig = foo;
+foo = function () { orig.call(obj); };
+
+foo();            // "bar"
+foo.call(obj2);   // "bar"
+```
+</pre>
+</div>
+
+***
+
+```js
+function bind(fn, o) {
+	return function () { fn.call(o); }
+}
+
+function foo() {
+	console.log(this.bar);
+}
+
+var obj = { bar: "bar" };
+var obj2 = { bar: "bar2" };
+
+foo = bind(foo, obj);
+
+foo();            // "bar"
+foo.call(obj2);   // "bar"
+```
+
+***
+
+```js
+if (!Function.prototype.bind2) {
+	Function.prototype.bind2 = function (o) {
+		var fn = this;
+		return function () {
+			return fn.apply(o, arguments);
+		};
+	};
+}
+
+function foo(baz) { console.log(this.bar + " " + baz); }
+var obj = { bar: "bar" };
+foo = foo.bind2(obj);
+
+foo("baz");    // "bar baz"
+```
+
+***
+
+### Вызов конструктора
+
+```js
+function foo() {
+	this.baz = "baz";
+	console.log(this.bar + " " + baz);
+}
+
+var bar = "bar";
+var baz = new foo(); // ???
+```
+
+***
+
+### Приоритеты контекстов
+
+<div class="fragment-container">
+<pre class="fragment current-visible lang-js">
+```
+function something() { this.hello = "hello"; console.log(this.hello, this.who); }
+
+var who = "global";
+obj1 = { who: "obj1", something: something }, obj2 = { who: "obj2"};
+
+something(); // "hello" "global"
+console.log(hello); // "hello"  <-- OOPS!!!
+
+obj1.something(); // "hello" "obj1"
+console.log(obj1.hello); // "hello"
+
+obj1.something.call(obj2); // "hello" "obj2"
+console.log(obj2.hello); // "hello"
+
+...
+```
+</pre>
+<pre class="fragment lang-js">
+```
+function something() { this.hello = "hello"; console.log(this.hello, this.who); }
+
+var who = "global";
+obj1 = { who: "obj1", something: something }, obj2 = { who: "obj2"};
+
+...
+
+var foobar = something.bind(obj2);
+foobar(); // "hello" "obj2"
+foobar.call(obj1); // "hello" "obj2"
+
+var bazbam = new something(); // "hello" "undefined"
+console.log(bazbam.hello); // "hello"
+
+bazbam = new obj1.something(); // "hello" "undefined"
+bazbam = new foobar(); // "hello" "undefined"
+```
+</pre>
+</div>
+
+***
+
+### Полифилл с MDN
+
+```js
+if (!Function.prototype.bind) {
+  Function.prototype.bind = function(oThis) {
+    // ... - проверка oThis
+    var aArgs = Array.prototype.slice.call(arguments, 1),
+        fToBind = this,
+        fNOP    = function() {},
+        fBound  = function() {
+          return fToBind.apply(this instanceof fNOP && oThis
+                 ? this
+                 : oThis,
+                 aArgs.concat(Array.prototype.slice.call(arguments)));
+        };
+    // ... - связывание прототипов
+    return fBound;
+  };
+}
+```
+
+[Полифилл](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Function/bind)<!-- .element: target="_blank"-->  
+
+***
+
+### Приоритеты контекстов: алгоритм
+1. Была ли функция вызвана с _new_?
+2. Была ли функция вызвана с _call_ или _apply_?
+3. Была ли функция вызвана через содержащий/владеющий объект
+4. По умолчанию
+  - глобальный объект
+  - (use strict) undefined
+
+***
+
+### Замыкание на контекст
+
+<div class="fragment-container">
+<pre class="fragment current-visible lang-js">
+```
+"use strict"
+
+var tariff = {
+	percent: 5,
+	getDividends: function (money, months) {
+		var plowBack = function (amount) {
+			return amount*this.percent/100;
+		 } 
+		for (var i = 0; i < months; i++) {
+			money += plowBack(money); //
+		}
+		return money;
+	}
+}
+
+console.log(tariff.getDividends(100, 3)); // undefined
+```
+</pre>
+<pre class="fragment lang-js">
+```
+"use strict"
+
+var tariff = {
+    percent: 5,
+    getDividends: function (money, months) {
+        var self = this;
+        var plowBack = function (amount) {
+            console.log(this === undefined); // true
+            return amount*self.percent/100;
+         } 
+        for (var i = 0; i < months; i++) {
+            money += plowBack(money); //
+        }
+        return money;
+    }
+}
+
+console.log(tariff.getDividends(100, 3));
+```
+</pre>
+</div>
+
+***
+
+### Особенность контекста Arrow Function
+```
+var tariff = {
+	percent: 5,
+	getDividends: function (money, months) {
+		var plowBack = amount => {
+			console.log(this === tariff); // true
+			return amount*this.percent/100;
+		 } 
+		for (var i = 0; i < months; i++) {
+			money += plowBack(money); //
+		}
+		return money;
+	}
+}
+
+console.log(tariff.getDividends(100, 3));
+```
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+
+## Объекты и прототипы
+
+***
+
+### Duck Typing
+
+> Если это выглядит как утка, плавает как утка и крякает как утка, то это, возможно, и есть утка.
+
+Функции не проверяют тип объекта: достаточно, чтобы объект содержал необходимые методы.
+
+***
+
+### Создание объектов
+
+```js
+var duck = {
+	name: "duck",
+	swim: () => { /* ... */ },
+	quack: () => { console.log("quack"); }
+}
+```
+
+А что если объектов надо много?
+
+<!-- .element: class="fragment" -->
+
+***
+
+### Создание нескольких объектов
+
+<div style="display: flex; flex-flow: row nowrap;">
+<pre class="lang-js" style="width: 100%; margin: 10px;">
+```
+var hueyDuck = {
+	name: "Huey",
+	swim: () => {},
+	quack: () => {}
+}
+```
+</pre>
+<pre class="lang-js" style="width: 100%; margin: 10px;">
+```
+var deweyDuck = {
+	name: "Dewey",
+	swim: () => {},
+	quack: () => {}
+}
+```
+</pre>
+<pre class="lang-js" style="width: 100%; margin: 10px;">
+```
+var louieDuck = {
+	name: "Louie",
+	swim: () => {},
+	quack: () => {}
+}
+```
+</pre>
+</div>
+
+Много кода повторяется. Можно использовать функцию!
+
+<!-- .element: class="fragment" -->
+
+***
+
+### Создание через функцию
+
+```js
+var createDuck = function (name) {
+	var duck = {};
+	duck.name = name;
+	duck.swim: () => { /* ... */ };
+	duck.quack: () => { console.log("quack"); };
+	return duck;
+}
+
+var hueyDuck = createDuck("Huey");
+var deweyDuck = createDuck("Dewey");
+var louieDuck = createDuck("Louie");
+```
+
+Кода стало меньше, но методы создаются каждый раз...
+
+<!-- .element: class="fragment" -->
+
+Вот если бы был объект, с набором готовых методов!..
+
+<!-- .element: class="fragment" -->
+
+***
+
+### Создание по прототипу на коленке
+```js
+var duckProto = {
+	name: "duck",
+	swim: () => { /* ... */ },
+	quack: () => { console.log("quack"); }
+}
+
+var createDuck = function (name) {
+  var duck = Object.assign({}, duckProto);
+  duck.name = name;
+  return duck;
+}
+
+var donald = createDuck("Donald");
+donald.quack(); // "quack"
+```
+
+_Object.assign_ дополняет левый объект свойствами правых
+
+Решение интересное, но связь существует только при создании
+
+<!-- .element: class="fragment" -->
+
+На самом деле в JS есть более элегантное прототипирование
+
+<!-- .element: class="fragment" -->
+
+***
+
+### Создание по прототипу
+```js
+var duckProto = {
+	name: "duck",
+	swim: () => { /* ... */ },
+	quack: () => { console.log("quack"); }
+}
+
+var createDuck = function (name) {
+  var duck = Object.create(duckProto);
+  duck.name = name;
+  return duck;
+}
+
+var donald = createDuck("Donald");
+donald.quack(); // "quack"
+donald.name; // "Donald"
+```
+
+```js
+duckProto.fly = () => {};
+donald.fly(); // Defined!
+```
+
+<!-- .element: class="fragment" -->
+
+Связь продолжает существовать!
+
+<!-- .element: class="fragment" -->
+
+***
+
+### Теперь создание эффективно
+
+```js
+var hueyDuck = createDuck("Huey");
+var deweyDuck = createDuck("Dewey");
+var louieDuck = createDuck("Louie");
+
+//и все они умеют летать!
+```
+
+Но как это работает?
+
+***
+
+### Прототип объекта
+
+Это другой объект, в котором происходит поиск свойств, не найденных в самом объекте
+
+Каждый объект ссылается на свой прототип  
+через внутреннее свойство `[[Prototype]]`
+
+***
+
+### \_\_proto\_\_
+
+Специальное свойство любого объекта, возвращающее ссылку на объект-прототип
+
+Произносится как _dunder proto_
+
+> Изначально добавлено в Firefox, а затем стало стандартом де-факто благодаря поддержки в V8 (Chrome) и Nitro (Safari).  
+> Стало стандартом де-юре только в ES2015,  
+> после чего появилось в IE11.
+
+Может быть использовано для изменения прототипа.  
+Но это не рекомендуется: не всегда доступно, препятствует оптимизациям и приводит к перекомпиляции.
+
+***
+
+### Цепочки прототипов
+
+```js
+// Пользовательские типы
+donald ---> duckProto ---> Object.prototype ---> null
+
+// Встроенные типы
+Number.prototype   --->
+...
+Array.prototype    --->
+Function.prototype ---> Object.prototype ---> null
+```
+
+> Забегая вперед, _Array_ - это функция.  
+> Следовательно, у нее могут быть произвольные свойства.
+> _Array.prototype_ - это ссылка на объект, который будет задан в качестве [[Prototype]] для всех массивов
+
+***
+
+<p style="width: 100%; margin:auto; text-align: center;">
+	![alt Цепочки базовых типов](tutorial/proto.png "Цепочки базовых типов")
+</p>
+
+***
+
+### Манипуляции с цепочкой прототипов
+
+```js
+var launchpad = {
+  __proto__: duckProto, // deprecated
+  name: "Launchpad McQuack"
+};
+
+launchpad.__proto__ === duckProto; // true
+Object.getPrototypeOf(launchpad) === duckProto; // true
+
+var gizmoDuckProto = Object.create(duckProto);
+
+Object.setPrototypeOf(launchpad, gizmoDuckProto);
+
+launchpad.__proto__ === gizmoDuckProto; // true
+Object.getPrototypeOf(launchpad) === gizmoDuckProto; // true
+```
+
+***
+
+### Поиск свойства в цепочке
+
+```js
+donald.name
+```
+
+- `name` у `donald`?
+- Да!
+- __Profit!__
+
+<!-- .element: class="fragment" -->
+
+***
+
+```js
+donald.toString()
+```
+
+- `toString` у `donald`?
+- Нет...
+- `[[Prototype]]` у `donald`?
+- `duckProto`
+
+<!-- .element: class="fragment" style="display: block;" -->
+
+- `toString` у `duckProto`?
+- Нет...
+- `[[Prototype]]` у `duckProto`?
+- `Object.prototype`
+
+<!-- .element: class="fragment" style="display: block;" -->
+
+- `toString` у `Object.prototype`?
+- Да!
+- __Profit!__
+
+<!-- .element: class="fragment" style="display: block;" -->
+
+***
+
+```js
+donald.unknown
+```
+
+- `unknown` у `donald`?
+- Нет...
+- `[[Prototype]]` у `donald`?
+- `duckProto`
+
+<!-- .element: class="fragment" style="display: block;" -->
+
+- `unknown` у `duckProto`?
+- Нет...
+- `[[Prototype]]` у `duckProto`?
+- `Object.prototype`
+
+<!-- .element: class="fragment" style="display: block;" -->
+
+- `unknown` у `Object.prototype`?
+- Нет...
+- `[[Prototype]]` у `Object.prototype`?
+- null
+- 🙁
+
+<!-- .element: class="fragment" style="display: block;" -->
+
+***
+
+### Выводы по поиску свойств в цепочке
+
+- Обеспечивает делегирование свойств вместо копирования
+- Значительные накладные расходы в случае больших иерархий
+- Особенно печально, если свойство не задано...
+
+***
+
+### Затенение - Shadowing
+
+<div class="fragment-container">
+<pre class="fragment current-visible lang-js">
+```
+var duckProto = {
+	fly: function () {
+		console.log("flying in the sky");
+	}
+}
+
+var gizmoDuckProto = Object.create(duckProto);
+Object.assign(gizmoDuckProto, {
+	fly: function () {
+		console.log("prepare propeller");
+		// переопределяем метод - надо вызвать базовый...
+	}
+});
+
+var launchpad = Object.create(gizmoDuckProto);
+launchpad.fly(); // "prepare propeller"
+```
+</pre>
+<pre class="fragment lang-js">
+```
+var duckProto = {
+	fly: function () {
+		console.log("flying in the sky");
+	}
+}
+
+var gizmoDuckProto = Object.create(duckProto);
+Object.assign(gizmoDuckProto, {
+	fly: function () {
+		console.log("prepare propeller");
+		duckProto.fly.call(this); // это еще без аргументов...
+	}
+});
+
+var launchpad = Object.create(gizmoDuckProto);
+launchpad.fly(); // "prepare propeller" "flying in the sky"
+```
+</pre>
+</div>
+
+***
+
+### Super Unicorn Magic!
+
+<div style="position: absolute; top: 80px; right: 10px; z-index: 1000">
+	<img src="tutorial/unicorn.jpg" width="300">
+</div>
+
+```js
+var duckProto = {
+	fly: function () {
+		console.log("flying in the sky");
+	}
+}
+
+var gizmoDuckProto = Object.create(duckProto);
+Object.assign(gizmoDuckProto, {
+	gizmoFly: function () {
+		console.log("prepare propeller");
+		this.fly();
+	}
+});
+
+var launchpad = Object.create(gizmoDuckProto);
+launchpad.gizmoFly(); // "prepare propeller" "flying in the sky"
+```
+
+***
+
+### Черная магия
+
+```js
+var duckProto = {
+	fly: function () {
+		console.log("flying in the sky");
+	}
+}
+
+var gizmoDuckProto = {
+	fly() {
+		console.log("prepare propeller");
+		super.fly();
+	}
+};
+Object.setPrototypeOf(gizmoDuckProto, duckProto);
+
+var launchpad = Object.create(gizmoDuckProto);
+launchpad.fly(); // "prepare propeller" "flying in the sky"
+```
+
+***
+
+### Поиск только собственных свойств
+
+```js
+for (var name in donald) {
+  if (donald.hasOwnProperty(name)) {
+    console.log(name + " = " + donald[name]);
+  }
+}
+
+//(ES5)
+var keys = Object.keys(donald);
+```
+
+Чтобы не перебирать всю иерархию наследования  
+по возможности стоит искать только в самом объекте
+
+***
+
+### Конфигурирование свойств
+
+Что происходит, когда вы делаете так?
+
+```js
+var o = {};
+o.a = 1;
+```
+
+На самом деле происходит так:<!-- .element: class="fragment" data-fragment-index="0" -->
+```js
+Object.defineProperty(o, 'a', {
+  value: 1,
+  writable: true, // можно менять значение и за это ничего не будет
+  configurable: true, // можно переопределить свойство
+  enumerable: true // свойство будет видно при переборе for...in и Object.keys
+});
+```
+<!-- .element: class="fragment" data-fragment-index="0" -->
+
+<!-- .element: class="fragment" data-fragment-index="1" -->Это называется _дескриптором свойства_
+
+***
+
+С другой стороны,
+```js
+Object.defineProperty(o, 'a', { value: 1 });
+```
+
+Эквивалентно записи:
+```js
+Object.defineProperty(o, 'a', {
+  value: 1,
+  writable: false,
+  configurable: false,
+  enumerable: false
+});
+```
+
+***
+
+#### Дескриптор данных
+```js
+Object.defineProperty(o, 'a', {
+  value: 37,
+  writable: true,
+  enumerable: true,
+  configurable: true
+});
+```
+
+либо
+
+#### Дескриптор доступа
+```js
+var bValue = 38;
+Object.defineProperty(o, 'b', {
+  get: function() { return bValue; },
+  set: function(newValue) { bValue = newValue; },
+  enumerable: true,
+  configurable: true
+});
+```
+
+***
+
+### Расширение базовых прототипов
+
+Известное как _Monkey patching_
+
+```js
+String.prototype.startsWith = function String$startsWith(str) {
+    if (String.isNullOrEmpty(str)) return true;
+    return this.left(str.length) == str;
+};
+
+String.prototype.left = function String$left(length) {
+    return this.substr(0, length);
+};
+```
+
+Нехорошая практика, потому что нарушает принцип инкапсуляции
+
+Единственное достойное использование -- регистрация полифилов, например, Array.forEach
+
+***
+
+### Blueprints vs Delegation в наследовании?
+
+```js
+// Построение по чертежу: свойства копируются
+var duck1 = Object.assign({}, duckProto);
+
+// Делегирование свойств
+var duck2 = Object.create(duckProto);
+```
+
+Языки с _класс_ическим наследованием - копирование по чертежам  
+- Полное копирование всех свойств
+- Независимость
+
+_Прототипное_ наследование - делегирование свойств  
+- Долгий поиск значения в большой иерархии
+- Затенение свойств
+- Возможность расширения за счет прототипа
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+
+## Конструкторы
+
+***
+
+### Конструктор
+
+Функция для создания объектов определенного типа
+
+***
+
+#### В предыдущей серии
+
+```js
+var duckProto = {
+	name: "duck",
+	swim: () => { /* ... */ },
+	quack: () => { console.log("quack"); }
+}
+
+// Фабричная функция. Очень похожа на конструктор!
+var createDuck = function (name) {
+  var duck = Object.create(duckProto);
+  duck.name = name;
+  return duck;
+}
+
+// С помощью нее создаем новые объекты
+var donald = createDuck("Donald");
+```
+
+***
+
+#### Посмотрим поближе
+
+```js
+var createDuck = function (name) {
+  // В начале создается новый пустой объект, связанный с прототипом
+  var duck = Object.create(duckProto);
+  // А еще пусть помнит родительскую функцию!
+  duck.constructor = createDuck;
+  
+  // Поля нового объекта заполняются специфичным для данного типа образом
+  duck.name = name;
+  
+  // Новый заполненный объект возвращается
+  return duck;
+}
+```
+
+Добавим синтаксического сахарку?
+<!-- .element: class="fragment" -->
+
+***
+
+#### Добавляем синтаксический сахар
+
+<div class="fragment-container">
+<pre class="fragment current-visible lang-js">
+```
+var createDuck = function (name) {
+  // Создается новый пустой объект, к которому привязывается прототип
+  var duck = Object.create(duckProto);
+  // А еще пусть помнит родительскую функцию!
+  duck.constructor = createDuck;
+  
+  // Поля нового объекта заполняются специфичным для данного типа образом
+  duck.name = name;
+  
+  // Новый заполненный объект возвращается
+  return duck;
+}
+
+var donald = createDuck("Donald");
+```
+</pre>
+<pre class="fragment current-visible lang-js">
+```
+var createDuck = function (name) {
+  // Создается новый пустой объект, к которому привязывается прототип
+  this = Object.create(duckProto);
+  // А еще пусть помнит родительскую функцию!
+  this.constructor = createDuck;
+  
+  // Поля нового объекта заполняются специфичным для данного типа образом
+  this.name = name;
+  
+  // Новый заполненный объект возвращается
+  return this;
+}
+
+var donald = createDuck("Donald");
+```
+</pre>
+<pre class="fragment current-visible lang-js">
+```
+var createDuck = function (name) {
+  // Создается новый пустой объект, к которому привязывается прототип
+  // this = Object.create(duckProto);
+  // А еще пусть помнит родительскую функцию!
+  // this.constructor = createDuck;
+  
+  // Поля нового объекта заполняются специфичным для данного типа образом
+  this.name = name;
+  
+  // Новый заполненный объект возвращается
+  // return this;
+}
+createDuck.prototype = duckProto;
+
+var donald = new createDuck("Donald");
+```
+</pre>
+<pre class="fragment lang-js">
+```
+var createDuck = function (name) {
+  this.name = name;
+}
+createDuck.prototype = duckProto;
+
+var donald = new createDuck("Donald");
+```
+</pre>
+<pre class="fragment lang-js">
+```
+var Duck = function (name) {
+  this.name = name;
+}
+Duck.prototype = duckProto;
+
+// Функции-конструкторы принято называть с большой буквы
+var donald = new Duck("Donald");
+```
+</pre>
+</div>
+
+***
+
+#### Какие функции могут быть конструктором?
+
+<!-- .element: class="fragment" -->Любые. Достаточно добавить оператор `new`
+
+***
+
+#### Можно ли использовать return?
+
+```js
+var Duck = function (name) {
+  if (!name.includes("Duck"))
+	return null;
+  this.name = name;
+}
+```
+<!-- .element: class="fragment" data-fragment-index="0" -->
+
+Да, чтобы подменить возвращаемый объект!
+<!-- .element: class="fragment" data-fragment-index="0" -->
+
+***
+
+### Наивное наследование
+
+```js
+var duckProto = {fly: function () {}};
+var Duck = function (name) { this.name = name; }
+Duck.prototype = duckProto;
+
+var GizmoDuck = function (name) { this.name = name; }
+GizmoDuck.prototype = Object.create(Duck.prototype);
+
+var donald = new Duck("Donald");
+var launchpad = new GizmoDuck("launchpad");
+```
+
+***
+
+### Определение типа по instanceof
+
+```js
+var donald = new Duck("Donald");
+console.log(donald instanceof Object); // true
+console.log(donald instanceof Duck); // true
+console.log(donald instanceof GizmoDuck); // false
+
+var launchpad = new GizmoDuck("Launchpad");
+console.log(launchpad instanceof Object); // true
+console.log(launchpad instanceof Duck); // true
+console.log(launchpad instanceof GizmoDuck); // true
+```
+
+***
+
+#### Принцип работы instanceof
+
+Последовательное сравнение прототипов по цепочке проверяемого объекта
+
+```js
+// launchpad instanceof Duck
+
+launchpad.__proto__ // {}
+launchpad.__proto__ === Duck.prototype // false
+
+launchpad.__proto__.__proto__ // {}
+launchpad.__proto__.__proto__ === Duck.prototype // true
+
+// возвращается true
+```
+
+***
+
+### Определение типа по constructor
+
+```js
+var duckProto = {fly: function () {}};
+var Duck = function (name) { this.name = name; }
+Duck.prototype = duckProto;
+
+var donald = new Duck("Donald");
+console.log(donald.constructor.name); // "Object"
+
+var GizmoDuck = function (name) { this.name = name; }
+GizmoDuck.prototype = Object.create(Duck.prototype);
+
+var launchpad = new GizmoDuck("Launchpad");
+console.log(launchpad.constructor.name); // "Object"
+```
+
+Где же магия `constructor`?
+
+***
+
+#### Ошибка при создании типа
+
+```js
+var duckProto = {fly: function () {}};
+var Duck = function (name) { this.name = name; }
+Duck.prototype = duckProto; // здесь затирается поле constructor
+```
+
+#### Исправление
+
+<!-- .element: class="fragment" data-fragment-index="0" -->
+
+```js
+var Duck = function (name) { this.name = name; }
+// Дополняем, а не переприсваиваем
+Duck.prototype.fly = function () {};
+
+var donald = new Duck("Donald");
+console.log(donald.constructor.name); // "Duck"
+
+var GizmoDuck = function (name) { this.name = name; }
+GizmoDuck.prototype = Object.create(Duck.prototype);
+
+var launchpad = new GizmoDuck("Launchpad");
+console.log(launchpad.constructor.name); // "Duck"
+```
+<!-- .element: class="fragment" data-fragment-index="0" -->
+
+***
+
+#### Ошибка в наследовании
+
+```js
+var GizmoDuck = function (name) { this.name = name; }
+GizmoDuck.prototype = Object.create(Duck.prototype); // снова потерли constructor
+
+var launchpad = new GizmoDuck("Launchpad");
+console.log(launchpad.constructor.name); // "Duck"
+```
+
+***
+
+#### Исправление для ES2015
+
+```js
+var GizmoDuck = function (name) { this.name = name; }
+Object.setPrototypeOf(GizmoDuck.prototype, Duck.prototype);
+
+var launchpad = new GizmoDuck("Launchpad");
+console.log(launchpad.constructor.name); // "GizmoDuck"
+```
+
+#### Исправление для ES5
+
+```js
+var GizmoDuck = function (name) { this.name = name; }
+GizmoDuck.prototype = Object.create(Duck.prototype);
+GizmoDuck.prototype.constructor = GizmoDuck;
+
+var launchpad = new GizmoDuck("Launchpad");
+console.log(launchpad.constructor.name); // "GizmoDuck"
+```
+
+***
+
+### Итоговые рецепты
+
+#### Создание типа
+```js
+var Duck = function (name) { this.name = name; }
+
+Duck.prototype.fly = function () {};
+```
+
+#### Наследование типа
+```js
+var GizmoDuck = function (name) { this.name = name; }
+
+GizmoDuck.prototype = Object.create(Duck.prototype);
+GizmoDuck.prototype.constructor = GizmoDuck;
+
+GizmoDuck.prototype.gizmoFly = function () { this.fly(); };
+```
+
+***
+
+<p style="width: 100%; margin:auto;">
+	![alt Мда уж](tutorial/mda.jpg "Мда уж")
+</p>
+
+***
+
+### Классы (ES2015)
+
+Синтаксический сахар для создания новых типов и наследования  
+Под капотом - все те же прототипы
+
+***
+
+#### Class declaration
+```js
+//без hoisting
+var duck = new Duck(); // ReferenceError
+
+class Duck {
+  constructor(name) {
+    this.name = name;
+  }
+}
+```
+
+#### Class expression
+```js
+//Named expression. Может быть anonymous
+var Duck = class InternalDuck {
+  constructor(name) {
+    this.name = name;
+  }
+}
+```
+
+***
+
+#### Прототипные методы
+
+```js
+class Duck {
+  constructor(name, bornYear) {
+    this.name = name;
+    this.bornYear = bornYear;
+  }
+  
+  get age() { return this.calculateAge(); }
+
+  calculateAge() { return new Date().getYear() + 1900 - this.bornYear; }
+}
+
+var daisy = new Duck("Daisy", 1940);
+console.log(daisy.age); // 6
+```
+
+***
+
+#### Статические методы
+
+```js
+class Duck {
+  constructor(name, bornYear) {
+    this.name = name;
+    this.bornYear = bornYear;
+  }
+  
+  static compareAge(a, b) {
+    return b.bornYear - a.bornYear;
+  }
+}
+
+var daisy = new Duck("Daisy", 1940);
+var donald = new Duck("Donald", 1934);
+
+console.log(Duck.compareAge(daisy, donald) > 0);
+```
+
+***
+
+#### Наследование через классы
+
+```js
+class Duck {
+  constructor(name) { this.name = name; }
+  fly() { console.log("flying in the sky"); }
+}
+
+class GizmoDuck extends Duck {
+  fly() {
+    console.log("prepare propeller");
+    super.fly();
+  }
+}
+
+new GizmoDuck("Launchpad").fly();
+```
+</script></section>
+
+<section data-markdown><script type="text/template">
+
+## Основной цикл событий
+
+***
+
+### Работа скрипта
+
+- Скачивается
+- Парсится/компилируется
+- Выполняется
+
+Все?
+
+<!-- .element: class="fragment" -->
+
+***
+
+### Обработка событий
+
+- От пользователя
+- Внешних событий: http, file system
+- Внутренних событий: setTimeout, setInterval
+
+События добавляются в очередь
+Затем они в цикле последовательно обрабатываются
+
+***
+
+#### Начальное состояние
+
+<p style="width: 70%; margin:auto;">
+	![alt Пустая очередь](tutorial/cycle0.png "Пустая очередь")
+</p>
+
+***
+
+#### Добавление события
+
+<p style="width: 70%; margin:auto;">
+	![alt Очередь с событием](tutorial/cycle1.png "Очередь с событием")
+</p>
+
+***
+
+#### Выполнение события
+
+<p style="width: 70%; margin:auto;">
+	![alt Событие выполняется](tutorial/cycle2.png "Событие выполняется")
+</p>
+
+***
+
+#### Добавление асинхронного события
+
+<p style="width: 70%; margin:auto;">
+	![alt Добавляется асинхронное событие](tutorial/cycle3.png "Добавляется асинхронное событие")
+</p>
+
+***
+
+#### Событие выполняется долго
+
+<p style="width: 70%; margin:auto;">
+	![alt Заполненная очередь](tutorial/cycle4.png "Заполненная очередь")
+</p>
+
+***
+
+#### Особенности цикла событий
+
+- Одновременно обрабатывается только одно событие
+- Не нужны блокировки памяти
+- Иллюзия многопоточности
+- Обработчики не должны быть долгими, иначе все повиснет
+
+***
+
+### Пример долгой задачи
+
+```js
+function takeShower(person) {
+  undress(person);
+  washHead(person);
+  singSong(person);
+  washBody(person);
+  wipeOffHead(person);
+  wipeOffBody(person);
+  brushTeeth(person);
+  getShaved(person);
+  getDressed(person);
+}
+```
+
+Точно будет очередь...
+
+***
+
+#### Разобьем на более маленькие
+
+```js
+function taskShowerTree(person) {
+  washHeadAndGo(person);
+  setTimeout(function () {
+    washBodyAndGo(person);
+    setTimeout(function () {
+      brushTeeth(person);
+      setTimeout(function () {
+        getShaved(person);
+        setTimeout(function () {
+          singSong(person);
+        }, 0);
+      }, 0);
+    }, 0);
+  }, 0);
+}
+```
+
+***
+
+#### Эффект Рождественского дерева
+
+<p style="width: 70%; margin:auto;">
+	![alt Christmas Tree](tutorial/christmastree.png "Christmas Tree")
+</p>
+
+***
+
+#### Promises обещают помочь
+
+```js
+
+function promiseWashHeadAndGo(person) {
+  return new Promise(function (resolve, reject) {
+    setTimeout(function () {
+      washHeadAndGo(person);
+      resolve();
+    });
+  });
+}
+
+function promiseWashBodyAndGo(person) { ... }
+function promiseBrushTeeth(person) { ... }
+function promiseGetShaved(person) { ... }
+function promiseSingSong(person) { ... }
+```
+
+***
+
+#### Promises помогают
+
+```js
+function taskShowerPromised(person) {
+  return promiseWashHeadAndGo(person)
+    .then(promiseWashBodyAndGo)
+    .then(promiseBrushTeeth)
+    .then(promiseGetShaved)
+    .then(promiseSingSong);
+}
+```
+
+[Promise от Ильи Кантора](https://learn.javascript.ru/promise)<!-- .element: target="_blank"-->  
+[Спецификация](https://promisesaplus.com/)<!-- .element: target="_blank"-->  
+[Частые ошибки с Promise](https://habrahabr.ru/company/mailru/blog/269465/)<!-- .element: target="_blank"-->  
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+
+## Заключение
+
+***
+
+### JavaScript сегодня
+
+Рожденный как Java для простаков, JS оказался далеко не таким простым...  
+JS закрепился в браузерах, а сегодня активно развивается:
+- новые стандарты
+- развитие инструментов
+- сообщества по всему миру
+- поддержка Google, Facebook, Microsoft
+- сотни тысяч пакетов в NPM
+
+***
+
+### За границами туториала
+
+- Деструктуризация массивов и объектов
+- Коллекции
+- Итераторы  
+- Генераторы
+
+и много-многое другое... :-)
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+
+## Чтиво
+
+***
+
+### You Don't Know JavaScript
+
+Кайл Симпсон
+
+<p style="width: 30%; margin:auto;">
+	![alt You Don't Know JavaScript](tutorial/youdontknow.jpg "You Don't Know JavaScript")
+</p>
+
+<p class="center">
+    [Английский оригинал](https://github.com/getify/You-Dont-Know-JS)<!-- .element: target="_blank"-->  
+    [Русский перевод](https://github.com/azat-io/you-dont-know-js-ru)<!-- .element: target="_blank"-->  
+</p>
+
+***
+
+### JavaScript: The Good Rarts
+
+Дуглас Крокфорд
+
+<p style="width: 20%; margin:auto;">
+	![alt JavaScript: The Good Rarts](tutorial/goodparts.jpg "JavaScript: The Good Rarts")
+</p>
+
+<p class="center">
+    [Посмотреть на OZON](https://www.ozon.ru/context/detail/id/20217226/)<!-- .element: target="_blank"-->  
+</p>
+
+***
+
+### Mozilla Developer Network
+
+[Подробно о JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)<!-- .element: target="_blank"-->  
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+
+## Спасибо за внимание!
+
+</script></section>
+			
+</div></div>
+</body>
+</html>
